@@ -1,8 +1,8 @@
 NAME="Kite Linux"
 PRETTY_NAME="Kite Linux"
 ID=kite
-BUILD_ID=release
-VERSION_ID=0.0.0
+BUILD_ID=
+VERSION_ID=
 ANSI_COLOR="38;2;23;147;209"
 HOME_URL="https://archlinux.org/"
 DOCUMENTATION_URL="https://wiki.archlinux.org/"
