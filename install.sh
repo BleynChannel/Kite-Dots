@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PKG_DIR=$(dirname "$(realpath "$0")")
+NO_INFO=false
 
 # Функция для вывода информации
 info() {
