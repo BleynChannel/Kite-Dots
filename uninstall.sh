@@ -14,6 +14,7 @@ show_help() {
   -h, --help     Показать эту справку
   --no-confirm   Пропустить подтверждение удаления
   --no-info      Отключить информационные сообщения
+  --no-reboot    Пропустить перезагрузку системы
 
 Примеры:
   $0 config
@@ -32,6 +33,7 @@ fi
 CATEGORY=""
 NO_CONFIRM=false
 NO_INFO=false
+NO_REBOOT=false
 
 for arg in "$@"; do
   case $arg in
@@ -43,6 +45,9 @@ for arg in "$@"; do
       ;;
     --no-info)
       NO_INFO=true
+      ;;
+    --no-reboot)
+      NO_REBOOT=true
       ;;
     config|apps|full)
       CATEGORY=$arg
@@ -121,9 +126,11 @@ remove_full() {
   info "Удаление системы Kite завершена успешно!"
 
   # Перезагрузка системы
-  # info "Перезагрузка системы начнется через 5 секунд..."
-  # sleep 5
-  # sudo reboot
+  if [ "$NO_REBOOT" = false ]; then
+    info "Перезагрузка системы начнется через 5 секунд..."
+    sleep 5
+    sudo reboot
+  fi
 }
 
 # Шаг 3: Выполнение удаления
