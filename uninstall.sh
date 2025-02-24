@@ -90,14 +90,20 @@ fi
 # Функции удаления
 remove_config() {
   info "Удаление конфигурационных файлов..."
+  
   rm -rf ~/.config/sway
   rm -rf ~/.config/foot
   rm -rf ~/.config/kite
+
+  info "Удаление конфигурационных файлов завершено успешно!"
 }
 
 remove_apps() {
   info "Удаление приложений..."
+  
   yay -R --noconfirm sway foot
+  
+  info "Удаление приложений завершено успешно!"
 }
 
 remove_full() {
@@ -107,6 +113,17 @@ remove_full() {
 
   # Удаление главной программы
   # TODO: Доделать
+
+  # Восстановление os-release
+  info "Восстановление os-release..."
+  sudo cp /etc/os-release.backup /etc/os-release
+
+  info "Удаление системы Kite завершена успешно!"
+
+  # Перезагрузка системы
+  # info "Перезагрузка системы начнется через 5 секунд..."
+  # sleep 5
+  # sudo reboot
 }
 
 # Шаг 3: Выполнение удаления
@@ -126,14 +143,3 @@ case $CATEGORY in
     exit 1
     ;;
 esac
-
-# Шаг 4: Восстановление os-release
-info "Восстановление os-release..."
-sudo cp /etc/os-release.backup /etc/os-release
-
-info "Удаление системы Kite завершена успешно!"
-
-# Перезагрузка системы
-# info "Перезагрузка системы начнется через 5 секунд..."
-# sleep 5
-# sudo reboot
