@@ -117,7 +117,7 @@ remove_full() {
   remove_apps
 
   # Удаление главной программы
-  # TODO: Доделать
+  yay -R --noconfirm kite-appimage
 
   # Восстановление os-release
   info "Восстановление os-release..."

@@ -10,6 +10,8 @@ info() {
   fi
 }
 
+cd "$PKG_DIR"
+
 # Шаг 1: Копирование конфигурационных файлов
 info "Копирование конфигурационных файлов..."
 rsync -av "$PKG_DIR/config/" ~/.config/
@@ -19,4 +21,4 @@ info "Установка программ..."
 yay -S --noconfirm foot sway
 
 # Шаг 3: Установка главной программы
-# TODO: Доделать
+makepkg -si --noconfirm
