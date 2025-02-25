@@ -34,8 +34,8 @@ depends=( 'bzip2'
 options=(!strip)
 conflicts=('kite')
 
-source=("${pkgname}-${pkgver}.AppImage::file://${startdir}/Kite.AppImage")
-noextract=("${pkgname}-${pkgver}.AppImage")
+source=("file://${startdir}/Kite.AppImage")
+noextract=("Kite.AppImage")
 sha256sums=('a7fc398c7f1b535f683187f3ab699cdb7fd76147adf3ec24dc4f19debe0b0eb2')
 
 build() {
