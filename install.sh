@@ -19,4 +19,4 @@ info "Установка программ..."
 yay -S --noconfirm foot sway
 
 # Шаг 3: Установка главной программы
-# TODO: Доделать
+makepkg -si --noconfirm

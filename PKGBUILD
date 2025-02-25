@@ -1,11 +1,10 @@
-# Maintainer: Charles Villard <charlesvillard10@gmail.com>
-# Contributor: Kye Morton <pryre.dev@outlook.com>
+# Maintainer: Bleyn Channel <bleyn2017@gmail.com>
 pkgname=kite-appimage
 pkgver=1.0.0
 pkgrel=1
 pkgdesc="Ground control for unmanned vehicles."
 arch=('x86_64')
-url="https://github.com/mavlink/qgroundcontrol"
+url="https://github.com/BleynChannel/qgroundcontrol"
 license=('GPL3')
 
 depends=( 'bzip2'
@@ -33,16 +32,16 @@ depends=( 'bzip2'
 		  'zlib'
 		  'icu' )
 options=(!strip)
+conflicts=('kite')
 
-source=("${pkgname}-${pkgver}.AppImage::https://github.com/mavlink/qgroundcontrol/releases/download/v${pkgver}/QGroundControl.AppImage")
+source=("${pkgname}-${pkgver}.AppImage::file://${startdir}/Kite.AppImage")
 noextract=("${pkgname}-${pkgver}.AppImage")
-
-sha256sums=('99fbe8e1af1f2ae5fccbc325afa45ed309226a50db4252ec540ca37f56787815')
+sha256sums=('a7fc398c7f1b535f683187f3ab699cdb7fd76147adf3ec24dc4f19debe0b0eb2')
 
 build() {
 	echo "[Desktop Entry]
 Type=Application
-Name=QGroundControl
+Name=Kite
 Comment=Ground control for unmanned vehicles
 Path=/opt/${pkgname}/
 Exec=/usr/bin/${pkgname}
@@ -56,8 +55,8 @@ package() {
   install -Dm755 "${srcdir}/${pkgname}-${pkgver}.AppImage" "${pkgdir}/opt/${pkgname}/${pkgname}.AppImage"
   cp "$srcdir/${pkgname}.desktop" "${pkgdir}/opt/${pkgname}/"
 
-  ln -s "/opt/${pkgname}/${pkgname}.AppImage" "${pkgdir}/usr/bin/${pkgname}"
-  ln -s "/opt/${pkgname}/${pkgname}.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
+  ln -s "/opt/${pkgname}/${pkgname}.AppImage" "${pkgdir}/usr/bin/Kite"
+  ln -s "/opt/${pkgname}/${pkgname}.desktop" "${pkgdir}/usr/share/applications/Kite.desktop"
 }
 
 # vim:set ts=2 sw=2 et:
