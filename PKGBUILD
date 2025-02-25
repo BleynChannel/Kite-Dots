@@ -36,7 +36,7 @@ conflicts=('kite')
 
 source=("file://${startdir}/Kite.AppImage")
 noextract=("Kite.AppImage")
-sha256sums=('a7fc398c7f1b535f683187f3ab699cdb7fd76147adf3ec24dc4f19debe0b0eb2')
+sha256sums=('db897a4a0ff06ebf2525a98dd3b5d2850688f4d100d622d6b05670983270b004')
 
 build() {
 	echo "[Desktop Entry]
