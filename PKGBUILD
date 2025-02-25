@@ -52,7 +52,7 @@ Categories=Qt;Utility;" > "$srcdir/${pkgname}.desktop"
 package() {
   mkdir -p "${pkgdir}/opt/${pkgname}" "${pkgdir}/usr/bin" "${pkgdir}/usr/share/applications"
 
-  install -Dm755 "${srcdir}/${pkgname}-${pkgver}.AppImage" "${pkgdir}/opt/${pkgname}/${pkgname}.AppImage"
+  install -Dm755 "${srcdir}/Kite.AppImage" "${pkgdir}/opt/${pkgname}/${pkgname}.AppImage"
   cp "$srcdir/${pkgname}.desktop" "${pkgdir}/opt/${pkgname}/"
 
   ln -s "/opt/${pkgname}/${pkgname}.AppImage" "${pkgdir}/usr/bin/Kite"
