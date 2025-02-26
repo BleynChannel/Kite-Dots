@@ -18,7 +18,10 @@ rsync -av "$PKG_DIR/config/" ~/.config/
 
 # Шаг 2: Установка программ
 info "Установка программ..."
-yay -S --noconfirm foot sway
+yay -S --noconfirm sway waybar
+
+# Developer инструменты
+yay -S --noconfirm fish starship kitty neovim fastfetch btop ranger
 
 # Шаг 3: Установка главной программы
 makepkg -si --noconfirm

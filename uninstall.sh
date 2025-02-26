@@ -97,7 +97,6 @@ remove_config() {
   info "Удаление конфигурационных файлов..."
   
   rm -rf ~/.config/sway
-  rm -rf ~/.config/foot
   rm -rf ~/.config/kite
 
   info "Удаление конфигурационных файлов завершено успешно!"
@@ -106,7 +105,10 @@ remove_config() {
 remove_apps() {
   info "Удаление приложений..."
   
-  yay -R --noconfirm sway foot
+  yay -R --noconfirm sway waybar
+
+  # Developer инструменты
+  yay -R --noconfirm fish starship kitty neovim fastfetch btop ranger
   
   info "Удаление приложений завершено успешно!"
 }
