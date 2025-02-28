@@ -96,8 +96,14 @@ fi
 remove_config() {
   info "Удаление конфигурационных файлов..."
   
-  rm -rf ~/.config/sway
-  rm -rf ~/.config/kite
+  rm -r "$HOME/.config/sway"
+  rm -r "$HOME/.config/fastfetch"
+  rm -r "$HOME/.config/fish"
+  rm -r "$HOME/.config/kitty"
+  rm -r "$HOME/.config/nvim"
+  rm -r "$HOME/.config/waybar"
+  rm -r "$HOME/.config/kite"
+  sudo rm -rf /etc/mosquitto.conf
 
   info "Удаление конфигурационных файлов завершено успешно!"
 }
@@ -105,10 +111,10 @@ remove_config() {
 remove_apps() {
   info "Удаление приложений..."
   
-  yay -R --noconfirm sway waybar
+  yay -R --noconfirm sway swaybg waybar kitty
 
   # Developer инструменты
-  yay -R --noconfirm fish starship kitty neovim fastfetch btop ranger
+  yay -R --noconfirm fish starship neovim fastfetch btop ranger
   
   info "Удаление приложений завершено успешно!"
 }

@@ -14,14 +14,15 @@ cd "$PKG_DIR"
 
 # Шаг 1: Копирование конфигурационных файлов
 info "Копирование конфигурационных файлов..."
-rsync -av "$PKG_DIR/config/" ~/.config/
+rsync -av "$PKG_DIR/dots/.config/" "$HOME/.config/"
+rsync -av "$PKG_DIR/dots/mosquitto.conf" "/etc/mosquitto.conf"
 
 # Шаг 2: Установка программ
 info "Установка программ..."
-yay -S --noconfirm sway waybar
+yay -S --noconfirm sway swaybg waybar mosquitto kitty
 
 # Developer инструменты
-yay -S --noconfirm fish starship kitty neovim fastfetch btop ranger
+yay -S --noconfirm fish starship neovim fastfetch btop ranger
 
 # Шаг 3: Установка главной программы
 makepkg -si --noconfirm
