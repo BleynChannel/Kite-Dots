@@ -53,7 +53,7 @@ for arg in "$@"; do
       CATEGORY=$arg
       ;;
     *)
-      echo "Ошибка: Неизвестный аргумент '$arg'"
+      echo "Ошибка: Неизвестный аргумент '$arg'" >&2
       show_help
       exit 1
       ;;
@@ -62,7 +62,7 @@ done
 
 # Проверка категории
 if [ -z "$CATEGORY" ]; then
-  echo "Ошибка: Необходимо указать тип системы"
+  echo "Ошибка: Необходимо указать тип системы" >&2
   show_help
   exit 1
 fi
@@ -78,7 +78,7 @@ info() {
 info "Проверка системы..."
 ID=$(grep '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
 if [[ "$ID" != *"kite"* ]]; then
-  echo "Ошибка: Удаление системы Kite невозможно! Установлена другая система."
+  echo "Ошибка: Удаление системы Kite невозможно! Установлена другая система." >&2
   exit 1
 fi
 
@@ -153,7 +153,7 @@ case $CATEGORY in
     remove_full
     ;;
   *)
-    echo "Ошибка: Неизвестная категория '$CATEGORY'"
+    echo "Ошибка: Неизвестная категория '$CATEGORY'" >&2
     show_help
     exit 1
     ;;
