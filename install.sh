@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# GITHUB_USER=BleynChannel
+# GITHUB_REPO=qgroundcontrol
+# BRANCH=dev
+
 PKG_DIR=$(dirname "$(realpath "$0")")
 NO_INFO=false
 
@@ -26,3 +30,7 @@ yay -S --noconfirm fish starship neovim fastfetch btop ranger
 
 # Шаг 3: Установка главной программы
 makepkg -si --noconfirm
+
+#OLD: Установка Kite через сборку исходного кода
+# git clone --depth 1 -b $BRANCH https://github.com/$GITHUB_USER/$GITHUB_REPO.git "$PKG_DIR/kite"
+# (cd "$PKG_DIR/kite" && makepkg -si --noconfirm)
