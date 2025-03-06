@@ -30,7 +30,7 @@ depends=( 'bzip2'
 		  'sdl2'
 		  'xz'
 		  'zlib'
-		  'icu',
+		  'icu'
 		  'fuse2' )
 options=(!strip)
 conflicts=('kite')
