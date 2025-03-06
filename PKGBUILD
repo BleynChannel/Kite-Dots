@@ -1,6 +1,6 @@
 # Maintainer: Bleyn Channel <bleyn2017@gmail.com>
 pkgname=kite-appimage
-pkgver=1.0.0
+pkgver=0.0.0
 pkgrel=1
 pkgdesc="Ground control for unmanned vehicles."
 arch=('x86_64')
@@ -30,13 +30,14 @@ depends=( 'bzip2'
 		  'sdl2'
 		  'xz'
 		  'zlib'
-		  'icu' )
+		  'icu'
+		  'fuse2' )
 options=(!strip)
 conflicts=('kite')
 
-source=("file://${startdir}/Kite.AppImage")
+source=("https://github.com/BleynChannel/qgroundcontrol/releases/download/dev-release/Kite.AppImage")
 noextract=("Kite.AppImage")
-sha256sums=('a7fc398c7f1b535f683187f3ab699cdb7fd76147adf3ec24dc4f19debe0b0eb2')
+sha256sums=('SKIP')
 
 build() {
 	echo "[Desktop Entry]

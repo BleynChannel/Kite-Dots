@@ -53,7 +53,7 @@ for arg in "$@"; do
       CATEGORY=$arg
       ;;
     *)
-      echo "Ошибка: Неизвестный аргумент '$arg'"
+      echo "Ошибка: Неизвестный аргумент '$arg'" >&2
       show_help
       exit 1
       ;;
@@ -62,7 +62,7 @@ done
 
 # Проверка категории
 if [ -z "$CATEGORY" ]; then
-  echo "Ошибка: Необходимо указать тип системы"
+  echo "Ошибка: Необходимо указать тип системы" >&2
   show_help
   exit 1
 fi
@@ -78,7 +78,7 @@ info() {
 info "Проверка системы..."
 ID=$(grep '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
 if [[ "$ID" != *"kite"* ]]; then
-  echo "Ошибка: Удаление системы Kite невозможно! Установлена другая система."
+  echo "Ошибка: Удаление системы Kite невозможно! Установлена другая система." >&2
   exit 1
 fi
 
@@ -96,9 +96,14 @@ fi
 remove_config() {
   info "Удаление конфигурационных файлов..."
   
-  rm -rf ~/.config/sway
-  rm -rf ~/.config/foot
-  rm -rf ~/.config/kite
+  rm -r "$HOME/.config/sway"
+  rm -r "$HOME/.config/fastfetch"
+  rm -r "$HOME/.config/fish"
+  rm -r "$HOME/.config/kitty"
+  rm -r "$HOME/.config/nvim"
+  rm -r "$HOME/.config/waybar"
+  rm -r "$HOME/.config/kite"
+  sudo rm -rf /etc/mosquitto.conf
 
   info "Удаление конфигурационных файлов завершено успешно!"
 }
@@ -106,7 +111,10 @@ remove_config() {
 remove_apps() {
   info "Удаление приложений..."
   
-  yay -R --noconfirm sway foot
+  yay -R --noconfirm sway swaybg waybar kitty
+
+  # Developer инструменты
+  yay -R --noconfirm fish starship neovim fastfetch btop ranger
   
   info "Удаление приложений завершено успешно!"
 }
@@ -145,7 +153,7 @@ case $CATEGORY in
     remove_full
     ;;
   *)
-    echo "Ошибка: Неизвестная категория '$CATEGORY'"
+    echo "Ошибка: Неизвестная категория '$CATEGORY'" >&2
     show_help
     exit 1
     ;;
