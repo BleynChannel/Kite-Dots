@@ -4,6 +4,8 @@
 #
 # Read `man 5 sway` for a complete reference.
 
+xwayland disable
+
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -14,7 +16,7 @@ set $mod Mod4
 # set $up k
 # set $right l
 # Your preferred terminal emulator
-set $term foot
+set $term kitty
 # Your preferred application launcher
 # set $menu wmenu-run
 
@@ -71,6 +73,12 @@ input type:touchpad {
 }
 
 input "10176:2137:WingCool_Inc._TouchScreen" map_to_output HDMI-A-1
+
+input "1:1:AT_Translated_Set_2_keyboard" {
+    xkb_layout us,ru
+    xkb_variant ,nodeadkeys
+    xkb_options grp:alt_shift_toggle
+}
 
 # input "type:keyboard" {
 #     xkb_layout us,ru
@@ -247,7 +255,11 @@ input "10176:2137:WingCool_Inc._TouchScreen" map_to_output HDMI-A-1
 #     }
 # }
 
-exec "QT_QPA_PLATFORM=xcb ~/QGroundControl.AppImage"
+bar {
+    swaybar_command waybar
+}
+
+exec "QT_QPA_PLATFORM=xcb Kite"
 
 for_window [title="gst-launch-1.0"] move container to workspace number 2
 
