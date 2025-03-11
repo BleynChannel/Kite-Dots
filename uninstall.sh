@@ -103,6 +103,7 @@ remove_config() {
   rm -r "$HOME/.config/nvim"
   rm -r "$HOME/.config/waybar"
   rm -r "$HOME/.config/kite"
+  rm -r "$HOME/.config/ranger"
   sudo rm -rf /etc/mosquitto.conf
 
   info "Удаление конфигурационных файлов завершено успешно!"
@@ -111,10 +112,17 @@ remove_config() {
 remove_apps() {
   info "Удаление приложений..."
   
-  yay -R --noconfirm pacman-contrib lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty
+  yay -R --noconfirm pacman-contrib arc-gtk-theme papirus-icon-theme \
+                     noto-fonts-emoji noto-fonts noto-fonts-cjk noto-fonts-extra terminus-font \
+                     #  ttf-nerd-fonts-symbols-1000-em \
+                     lightdm lightdm-gtk-greeter sway swaybg waybar network-manager-applet mosquitto kitty
 
   # Developer инструменты
-  yay -R --noconfirm fish starship neovim fastfetch btop ranger
+  yay -R --noconfirm fish starship eza neovim fastfetch btop \
+                     ranger python-pillow
+
+  # Возвращаем пользователю bash
+  sudo chsh -s /bin/bash # Developer
   
   info "Удаление приложений завершено успешно!"
 }

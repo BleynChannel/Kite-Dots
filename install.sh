@@ -23,10 +23,14 @@ rsync -av "$PKG_DIR/dots/mosquitto.conf" "/etc/mosquitto.conf"
 
 # Шаг 2: Установка программ
 info "Установка программ..."
-yay -S --noconfirm pacman-contrib lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty
+yay -S --noconfirm pacman-contrib arc-gtk-theme papirus-icon-theme \
+                   noto-fonts-emoji noto-fonts noto-fonts-cjk noto-fonts-extra terminus-font \
+                  #  ttf-nerd-fonts-symbols-1000-em \
+                   lightdm lightdm-gtk-greeter sway swaybg waybar network-manager-applet mosquitto kitty
 
 # Developer инструменты
-yay -S --noconfirm fish starship neovim fastfetch btop ranger
+yay -S --noconfirm fish starship eza neovim fastfetch btop \
+                   ranger python-pillow
 
 # Шаг 3: Установка главной программы
 makepkg -si --noconfirm
@@ -35,8 +39,11 @@ makepkg -si --noconfirm
 # git clone --depth 1 -b $BRANCH https://github.com/$GITHUB_USER/$GITHUB_REPO.git "$PKG_DIR/kite"
 # (cd "$PKG_DIR/kite" && makepkg -si --noconfirm)
 
-# Шаг 4: Запуск сервисов
+# Шаг 4: Настройка системы
 info "Запуск сервисов..."
-systemctl enable lightdm.service
-systemctl enable mosquitto.service
-systemctl enable sway.service
+sudo systemctl enable lightdm.service
+sudo systemctl enable mosquitto.service
+sudo systemctl enable sway.service
+
+info "Настройка системы..."
+sudo chsh -s /bin/fish # Developer
