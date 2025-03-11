@@ -111,7 +111,7 @@ remove_config() {
 remove_apps() {
   info "Удаление приложений..."
   
-  yay -R --noconfirm sway swaybg waybar kitty
+  yay -R --noconfirm pacman-contrib lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty
 
   # Developer инструменты
   yay -R --noconfirm fish starship neovim fastfetch btop ranger
