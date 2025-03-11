@@ -113,9 +113,9 @@ remove_apps() {
   info "Удаление приложений..."
   
   yay -R --noconfirm pacman-contrib arc-gtk-theme papirus-icon-theme \
+                     ttf-font-awesome otf-font-awesome \
                      noto-fonts-emoji noto-fonts noto-fonts-cjk noto-fonts-extra terminus-font \
-                     #  ttf-nerd-fonts-symbols-1000-em \
-                     lightdm lightdm-gtk-greeter sway swaybg waybar network-manager-applet mosquitto kitty
+                     lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty
 
   # Developer инструменты
   yay -R --noconfirm fish starship eza neovim fastfetch btop \
