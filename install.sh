@@ -25,8 +25,8 @@ rsync -av "$PKG_DIR/dots/mosquitto.conf" "/etc/mosquitto.conf"
 info "Установка программ..."
 yay -S --noconfirm pacman-contrib arc-gtk-theme papirus-icon-theme \
                    noto-fonts-emoji noto-fonts noto-fonts-cjk noto-fonts-extra terminus-font \
-                  #  ttf-nerd-fonts-symbols-1000-em \
                    lightdm lightdm-gtk-greeter sway swaybg waybar network-manager-applet mosquitto kitty
+                  #  ttf-nerd-fonts-symbols-1000-em \
 
 # Developer инструменты
 yay -S --noconfirm fish starship eza neovim fastfetch btop \
