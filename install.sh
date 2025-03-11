@@ -24,7 +24,7 @@ rsync -av "$PKG_DIR/dots/mosquitto.conf" "/etc/mosquitto.conf"
 # Шаг 2: Установка программ
 info "Установка программ..."
 yay -S --noconfirm pacman-contrib arc-gtk-theme papirus-icon-theme \
-                   ttf-font-awesome otf-font-awesome \
+                   ttf-font-awesome otf-font-awesome ttf-cascadia-mono-nerd \
                    noto-fonts-emoji noto-fonts noto-fonts-cjk noto-fonts-extra terminus-font \
                    lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty
 

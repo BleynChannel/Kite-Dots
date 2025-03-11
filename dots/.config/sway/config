@@ -89,11 +89,14 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 #
 # Basics:
 #
-    # Start a terminal
-    bindsym $mod+t exec $term
-
     # Start a Kite tools
     bindsym $mod+k exec $term -e kite-tools
+
+    # Developer keybinds
+    bindsym $mod+t exec $term
+    bindsym $mod+b exec btop
+    bindsym $mod+e exec mqtt-explorer
+    bindsym $mod+m exec mavproxy
 
     # Kill focused window
     bindsym $mod+q kill
