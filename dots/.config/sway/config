@@ -92,7 +92,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 
     # Developer keybinds
     bindsym $mod+t exec $term
-    bindsym $mod+b exec btop
+    bindsym $mod+b exec $term btop
     bindsym $mod+e exec mqtt-explorer
     bindsym $mod+m exec mavproxy
 
@@ -180,7 +180,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     # bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
-    # bindsym $mod+f fullscreen
+    bindsym $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
     # bindsym $mod+Shift+space floating toggle
