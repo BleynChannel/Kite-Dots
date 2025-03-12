@@ -31,7 +31,8 @@ depends=( 'bzip2'
 		  'xz'
 		  'zlib'
 		  'icu'
-		  'fuse2' )
+		  'fuse2'
+		  'xorg-xwayland' )
 options=(!strip)
 conflicts=('kite')
 
