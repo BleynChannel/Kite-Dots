@@ -95,6 +95,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     bindsym $mod+b exec $term btop
     bindsym $mod+e exec mqtt-explorer
     bindsym $mod+m exec mavproxy
+    bindsym $mod+q exec "QT_QPA_PLATFORM=xcb Kite"
 
     # Kill focused window
     bindsym $mod+q kill
@@ -276,8 +277,7 @@ exec "nm-applet --indicator"
 
 exec "QT_QPA_PLATFORM=xcb Kite"
 
-for_window [window_type="dialog"] floating enable
-for_window [window_role="dialog"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
 
 for_window [title="gst-launch-1.0"] move container to workspace number 2
 

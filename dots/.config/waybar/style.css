@@ -49,6 +49,7 @@ window#waybar.hidden {
 }
 
 #language {
+    margin-right: 8px;
     padding-left: 16px;
     padding-right: 8px;
     border-radius: 10px;
@@ -67,8 +68,8 @@ window#waybar.hidden {
 }
 
 #custom-pacman {
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
     border-radius: 10px;
     transition: none;
     color: #ffffff;
