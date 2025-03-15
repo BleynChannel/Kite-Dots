@@ -95,7 +95,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     bindsym $mod+b exec $term btop
     bindsym $mod+e exec mqtt-explorer
     bindsym $mod+m exec mavproxy
-    bindsym $mod+q exec "QT_QPA_PLATFORM=xcb Kite"
+    # bindsym $mod+q exec "QT_QPA_PLATFORM=xcb Kite"
 
     # Kill focused window
     bindsym $mod+q kill
