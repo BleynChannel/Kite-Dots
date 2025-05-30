@@ -106,10 +106,10 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     # bindsym $mod+d exec $menu
 
 	#! TEMPORARY
-	bindsym $mod+1 exec bash -c 'pkill -f "gst-launch-1.0" && gst-launch-1.0 rtspsrc location="rtsp://192.168.137.10:554/user=reg&password=reg1234&channel=0&stream=0.sdb?real_stream" latency=17 timeout=500000 ! queue ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink &'
-	bindsym $mod+2 exec bash -c 'pkill -f "gst-launch-1.0" && gst-launch-1.0 rtspsrc location="rtsp://192.168.137.10:554/user=reg&password=reg1234&channel=1&stream=0.sdb?real_stream" latency=17 timeout=500000 ! queue ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink &'
-	bindsym $mod+3 exec bash -c 'pkill -f "gst-launch-1.0" && gst-launch-1.0 rtspsrc location="rtsp://192.168.137.10:554/user=reg&password=reg1234&channel=2&stream=0.sdb?real_stream" latency=17 timeout=500000 ! queue ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink &'
-	bindsym $mod+4 exec bash -c 'pkill -f "gst-launch-1.0" && gst-launch-1.0 rtspsrc location="rtsp://192.168.137.10:554/user=reg&password=reg1234&channel=3&stream=0.sdb?real_stream" latency=17 timeout=500000 ! queue ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink &'
+	bindsym $mod+1 exec ~/.config/sway/switch_video.sh 0
+	bindsym $mod+2 exec ~/.config/sway/switch_video.sh 1
+	bindsym $mod+3 exec ~/.config/sway/switch_video.sh 2
+	bindsym $mod+4 exec ~/.config/sway/switch_video.sh 3
 	
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
