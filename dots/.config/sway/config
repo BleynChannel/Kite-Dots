@@ -105,6 +105,12 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     # Start your launcher
     # bindsym $mod+d exec $menu
 
+	#! TEMPORARY
+	bindsym $mod+1 exec bash -c 'pkill -f "gst-launch-1.0" && gst-launch-1.0 rtspsrc location="rtsp://192.168.137.10:554/user=reg&password=reg1234&channel=0&stream=0.sdb?real_stream" latency=17 timeout=500000 ! queue ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink &'
+	bindsym $mod+2 exec bash -c 'pkill -f "gst-launch-1.0" && gst-launch-1.0 rtspsrc location="rtsp://192.168.137.10:554/user=reg&password=reg1234&channel=1&stream=0.sdb?real_stream" latency=17 timeout=500000 ! queue ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink &'
+	bindsym $mod+3 exec bash -c 'pkill -f "gst-launch-1.0" && gst-launch-1.0 rtspsrc location="rtsp://192.168.137.10:554/user=reg&password=reg1234&channel=2&stream=0.sdb?real_stream" latency=17 timeout=500000 ! queue ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink &'
+	bindsym $mod+4 exec bash -c 'pkill -f "gst-launch-1.0" && gst-launch-1.0 rtspsrc location="rtsp://192.168.137.10:554/user=reg&password=reg1234&channel=3&stream=0.sdb?real_stream" latency=17 timeout=500000 ! queue ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink &'
+	
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
