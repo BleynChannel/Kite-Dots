@@ -19,7 +19,7 @@ install_aur_pkgs() {
         local pkg_file="$pkg_dir/$pkg_name.tar.gz"
 
         if [ ! -d "$pkg_dir" ]; then
-            git clone "https://aur.archlinux.org/$pkg_name.git" "$pkg_dir"
+            sudo -u $SUDO_USER git clone "https://aur.archlinux.org/$pkg_name.git" "$pkg_dir"
         fi
 
         cd "$pkg_dir"
