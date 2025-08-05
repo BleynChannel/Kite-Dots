@@ -77,7 +77,12 @@ if ! pacman -S --noconfirm fish starship eza neovim fastfetch btop \
 fi
 
 # Step 3: Installing Kite
-if ! sudo -u $SUDO_USER makepkg -sf --noconfirm; then
+if ! pacman -Sy --needed --noconfirm $(source PKGBUILD && echo "${depends[@]}"); then
+    echo "Error: Failed to install dependencies" >&2
+    exit 1
+fi
+
+if ! sudo -u $SUDO_USER makepkg -f --noconfirm; then
     echo "Error: Failed to install Kite" >&2
     exit 1
 fi
