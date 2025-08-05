@@ -82,7 +82,7 @@ if ! sudo -u $SUDO_USER makepkg -sf --noconfirm; then
     exit 1
 fi
 
-if ! pacman -U --noconfirm "$(find "$(pwd)" -maxdepth 1 -type f -name "*.pkg.tar.*" | head -n 1)"; then
+if ! pacman -U --noconfirm "$(find "$PKG_DIR" -maxdepth 1 -type f -name "*.pkg.tar.*" | head -n 1)"; then
     echo "Error: Failed to install Kite" >&2
     exit 1
 fi
