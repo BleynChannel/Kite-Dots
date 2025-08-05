@@ -24,7 +24,7 @@ install_aur_pkgs() {
 
         cd "$pkg_dir"
         if [ ! -f "$pkg_file" ]; then
-            sudo -u $SUDO_USER makepkg -s --noconfirm
+            sudo -u $SUDO_USER makepkg -si --noconfirm
         fi
 
         rm -rf "$pkg_dir"
