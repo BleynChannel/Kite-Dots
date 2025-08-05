@@ -64,10 +64,10 @@ if ! pacman -S --noconfirm pacman-contrib papirus-icon-theme \
     exit 1
 fi
 
-if ! install_aur_pkgs "arc-gtk-theme"; then
-    echo "Error: Failed to install AUR packages" >&2
-    exit 1
-fi
+# if ! install_aur_pkgs "arc-gtk-theme"; then
+#     echo "Error: Failed to install AUR packages" >&2
+#     exit 1
+# fi
 
 # Developer tools
 if ! pacman -S --noconfirm fish starship eza neovim fastfetch btop \
