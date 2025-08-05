@@ -1,49 +1,96 @@
 #!/bin/bash
 
-# GITHUB_USER=BleynChannel
-# GITHUB_REPO=qgroundcontrol
-# BRANCH=dev
-
 PKG_DIR=$(dirname "$(realpath "$0")")
 NO_INFO=false
 
-# Функция для вывода информации
+# Function for displaying information
 info() {
   if [ "$NO_INFO" = false ]; then
     echo "[INFO] $1"
   fi
 }
 
+# Function for install AUR packages
+install_aur_pkgs() {
+    local old_dir=$(pwd)
+
+    for pkg_name in "$@"; do
+        local pkg_dir="/tmp/$pkg_name"
+        local pkg_file="$pkg_dir/$pkg_name.tar.gz"
+
+        if [ ! -d "$pkg_dir" ]; then
+            git clone "https://aur.archlinux.org/$pkg_name.git" "$pkg_dir"
+        fi
+
+        cd "$pkg_dir"
+        if [ ! -f "$pkg_file" ]; then
+            makepkg -s --noconfirm
+        fi
+
+        rm -rf "$pkg_dir"
+    done
+
+    cd "$old_dir"
+}
+
 cd "$PKG_DIR"
 
-# Шаг 1: Копирование конфигурационных файлов
-info "Копирование конфигурационных файлов..."
-rsync -av "$PKG_DIR/dots/.config/" "$HOME/.config/"
-rsync -av "$PKG_DIR/dots/mosquitto.conf" "/etc/mosquitto.conf"
+# Step 1: Copying configuration files
+info "Copying configuration files..."
+if ! rsync -av "$PKG_DIR/dots/.config/" "$HOME/.config/"; then
+    echo "Error: Failed to copy configuration files" >&2
+    exit 1
+fi
+if ! rsync -av "$PKG_DIR/dots/mosquitto.conf" "/etc/mosquitto.conf"; then
+    echo "Error: Failed to copy mosquitto.conf" >&2
+    exit 1
+fi
 
-# Шаг 2: Установка программ
-info "Установка программ..."
-yay -S --noconfirm pacman-contrib arc-gtk-theme papirus-icon-theme \
+# Step 2: Installing programs
+info "Installing programs..."
+if ! pacman -S --noconfirm pacman-contrib papirus-icon-theme \
                    ttf-font-awesome otf-font-awesome ttf-cascadia-mono-nerd \
                    noto-fonts-emoji noto-fonts noto-fonts-cjk noto-fonts-extra terminus-font \
-                   lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty
+                   lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty; then
+    echo "Error: Failed to install programs" >&2
+    exit 1
+fi
 
-# Developer инструменты
-yay -S --noconfirm fish starship eza neovim fastfetch btop \
-                   ranger python-pillow
+if ! install_aur_pkgs "arc-gtk-theme"; then
+    echo "Error: Failed to install AUR packages" >&2
+    exit 1
+fi
 
-# Шаг 3: Установка главной программы
-makepkg -si --noconfirm
+# Developer tools
+if ! pacman -S --noconfirm fish starship eza neovim fastfetch btop \
+                   ranger python-pillow; then
+    echo "Error: Failed to install developer tools" >&2
+    exit 1
+fi
 
-#OLD: Установка Kite через сборку исходного кода
-# git clone --depth 1 -b $BRANCH https://github.com/$GITHUB_USER/$GITHUB_REPO.git "$PKG_DIR/kite"
-# (cd "$PKG_DIR/kite" && makepkg -si --noconfirm)
+# Step 3: Installing Kite
+if ! makepkg -si --noconfirm; then
+    echo "Error: Failed to install Kite" >&2
+    exit 1
+fi
 
-# Шаг 4: Настройка системы
-info "Запуск сервисов..."
-sudo systemctl enable lightdm.service
-sudo systemctl enable mosquitto.service
-sudo systemctl enable sway.service
+# Step 4: Setting up the system
+info "Enabling services..."
+if ! systemctl enable lightdm.service; then
+    echo "Error: Failed to enable lightdm service" >&2
+    exit 1
+fi
+if ! systemctl enable mosquitto.service; then
+    echo "Error: Failed to enable mosquitto service" >&2
+    exit 1
+fi
+if ! systemctl enable sway.service; then
+    echo "Error: Failed to enable sway service" >&2
+    exit 1
+fi
 
-info "Настройка системы..."
-sudo chsh -s /bin/fish # Developer
+info "Setting up the system..."
+if ! chsh -s /bin/fish; then
+    echo "Error: Failed to change shell" >&2
+    exit 1
+fi
