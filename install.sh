@@ -24,7 +24,7 @@ install_aur_pkgs() {
 
         cd "$pkg_dir"
         if [ ! -f "$pkg_file" ]; then
-            makepkg -s --noconfirm
+            sudo -u $SUDO_USER makepkg -s --noconfirm
         fi
 
         rm -rf "$pkg_dir"
@@ -69,7 +69,7 @@ if ! pacman -S --noconfirm fish starship eza neovim fastfetch btop \
 fi
 
 # Step 3: Installing Kite
-if ! makepkg -si --noconfirm; then
+if ! sudo -u $SUDO_USER makepkg -si --noconfirm; then
     echo "Error: Failed to install Kite" >&2
     exit 1
 fi
