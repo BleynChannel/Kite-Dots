@@ -96,14 +96,13 @@ fi
 remove_config() {
   info "Removing configuration files..."
   
-  for path in "$HOME/.config/sway" \
-              "$HOME/.config/fastfetch" \
-              "$HOME/.config/fish" \
-              "$HOME/.config/kitty" \
-              "$HOME/.config/nvim" \
-              "$HOME/.config/waybar" \
-              "$HOME/.config/kite" \
-              "$HOME/.config/ranger" \
+  for path in "/etc/sway" \
+              "/usr/share/doc/kitty" \
+              "/etc/xdg/waybar" \
+              "$HOME_PATH/.config/nvim" \
+              "$HOME_PATH/.config/ranger" \
+              "$HOME_PATH/.config/fastfetch" \
+              "$HOME_PATH/.config/fish" \
               /etc/mosquitto.conf; do
     if ! rm -r "$path"; then
       echo "Error: Could not remove '$path'" >&2

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PKG_DIR=$(dirname "$(realpath "$0")")
+HOME_PATH=$(getent passwd "$SUDO_USER" | cut -d: -f6)
 NO_INFO=false
 
 # Function for displaying information
@@ -47,18 +48,36 @@ install_aur_pkgs() {
     cd "$old_dir"
 }
 
+copy_config() {
+    PKG_CONFIG_PATH=$1
+    TARGET_CONFIG_PATH=$2
+
+    if [ ! -d "$TARGET_CONFIG_PATH" ]; then
+        if ! mkdir -p "$TARGET_CONFIG_PATH"; then
+            echo "Error: Failed to create target directory $TARGET_CONFIG_PATH" >&2
+            exit 1
+        fi
+    fi
+    
+    if ! rsync -av "$PKG_CONFIG_PATH/" "$TARGET_CONFIG_PATH/"; then
+        echo "Error: Failed to copy configuration files" >&2
+        exit 1
+    fi
+}
+
 cd "$PKG_DIR"
 
 # Step 1: Copying configuration files
 info "Copying configuration files..."
-if ! rsync -av "$PKG_DIR/dots/.config/" "$HOME/.config/"; then
-    echo "Error: Failed to copy configuration files" >&2
-    exit 1
-fi
-if ! rsync -av "$PKG_DIR/dots/mosquitto.conf" "/etc/mosquitto.conf"; then
-    echo "Error: Failed to copy mosquitto.conf" >&2
-    exit 1
-fi
+
+copy_config "$PKG_DIR/dots/sway" "/etc/sway"
+copy_config "$PKG_DIR/dots/kitty" "/usr/share/doc/kitty"
+copy_config "$PKG_DIR/dots/waybar" "/etc/xdg/waybar"
+copy_config "$PKG_DIR/dots/nvim" "$HOME_PATH/.config/nvim"
+copy_config "$PKG_DIR/dots/ranger" "$HOME_PATH/.config/ranger"
+copy_config "$PKG_DIR/dots/fastfetch" "$HOME_PATH/.config/fastfetch"
+copy_config "$PKG_DIR/dots/fish" "$HOME_PATH/.config/fish"
+copy_config "$PKG_DIR/dots/mosquitto" "/etc"
 
 # Step 2: Installing programs
 info "Installing programs..."
