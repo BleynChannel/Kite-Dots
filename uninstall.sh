@@ -117,8 +117,8 @@ remove_config() {
 remove_apps() {
   info "Removing applications..."
   
-  if ! pacman -R --noconfirm pacman-contrib arc-gtk-theme papirus-icon-theme \
-                     ttf-font-awesome otf-font-awesome \
+  if ! pacman -R --noconfirm pacman-contrib arc-solid-gtk-theme papirus-icon-theme \
+                     woff2-font-awesome otf-font-awesome \
                      noto-fonts-emoji noto-fonts noto-fonts-cjk noto-fonts-extra terminus-font \
                      lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty; then
     echo "Error: Failed to remove applications" >&2

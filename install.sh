@@ -92,7 +92,7 @@ fi
 # Step 2: Installing programs
 info "Installing programs..."
 if ! pacman -S --noconfirm pacman-contrib papirus-icon-theme \
-                   ttf-font-awesome otf-font-awesome ttf-cascadia-mono-nerd \
+                   woff2-font-awesome otf-font-awesome ttf-cascadia-mono-nerd \
                    noto-fonts-emoji noto-fonts noto-fonts-cjk noto-fonts-extra terminus-font \
                    lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty; then
     echo "Error: Failed to install programs" >&2
