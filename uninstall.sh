@@ -99,7 +99,6 @@ remove_config() {
   for path in "/etc/sway" \
               "/usr/share/doc/kitty" \
               "/etc/xdg/waybar" \
-              "$HOME_PATH/.config/nvim" \
               "$HOME_PATH/.config/ranger" \
               "$HOME_PATH/.config/fastfetch" \
               "$HOME_PATH/.config/fish" \
