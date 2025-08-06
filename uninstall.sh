@@ -1,35 +1,37 @@
 #!/bin/bash
 
-# Функция для вывода справки
+# Function to display help
 show_help() {
   cat <<EOF
-Использование: $0 <категория> [опции]
+Usage: $0 <category> [options]
 
-Категории удаления:
-  config - Удаление конфигурационных файлов
-  apps - Удаление приложений
-  full - Удаление системы
+Categories for removal:
+  config - Remove configuration files
+  apps - Remove applications
+  full - Remove the entire system
 
-Опции:
-  -h, --help     Показать эту справку
-  --no-confirm   Пропустить подтверждение удаления
-  --no-info      Отключить информационные сообщения
-  --no-reboot    Пропустить перезагрузку системы
+Options:
+  -h, --help     Show this help
+  --no-confirm   Skip removal confirmation
+  --no-info      Disable information messages
+  --no-reboot    Skip system reboot
 
-Примеры:
+Examples:
   $0 config
   $0 full --no-confirm
 EOF
   exit 0
 }
 
-# Проверка аргументов
+# Check arguments
 if [ $# -eq 0 ]; then
   show_help
   exit 1
 fi
 
-# Обработка аргументов
+HOME_PATH=$(getent passwd "$SUDO_USER" | cut -d: -f6)
+
+# Process arguments
 CATEGORY=""
 NO_CONFIRM=false
 NO_INFO=false
@@ -53,95 +55,121 @@ for arg in "$@"; do
       CATEGORY=$arg
       ;;
     *)
-      echo "Ошибка: Неизвестный аргумент '$arg'" >&2
+      echo "Error: Unknown argument '$arg'" >&2
       show_help
       exit 1
       ;;
   esac
 done
 
-# Проверка категории
+# Check category
 if [ -z "$CATEGORY" ]; then
-  echo "Ошибка: Необходимо указать тип системы" >&2
+  echo "Error: System type must be specified" >&2
   show_help
   exit 1
 fi
 
-# Функция для вывода информации
+# Function to display information
 info() {
   if [ "$NO_INFO" = false ]; then
     echo "[INFO] $1"
   fi
 }
 
-# Шаг 1: Проверка ID системы
-info "Проверка системы..."
+# Step 1: Check system ID
+info "Checking system..."
 ID=$(grep '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
 if [[ "$ID" != *"kite"* ]]; then
-  echo "Ошибка: Удаление системы Kite невозможно! Установлена другая система." >&2
+  echo "Error: Kite system removal is not possible! Another system is installed." >&2
   exit 1
 fi
 
-# Шаг 2: Подтверждение удаления
+# Step 2: Confirm removal
 if [ "$NO_CONFIRM" = false ]; then
-  read -p "Вы уверены, что хотите удалить систему Kite? (y/n) " -n 1 -r
+  read -p "Are you sure you want to remove the Kite system? (y/n) " -n 1 -r
   echo
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    info "Удаление отменено пользователем"
+    info "Removal canceled by user"
     exit 0
   fi
 fi
 
-# Функции удаления
+# Removal functions
 remove_config() {
-  info "Удаление конфигурационных файлов..."
+  info "Removing configuration files..."
   
-  rm -r "$HOME/.config/sway"
-  rm -r "$HOME/.config/fastfetch"
-  rm -r "$HOME/.config/fish"
-  rm -r "$HOME/.config/kitty"
-  rm -r "$HOME/.config/nvim"
-  rm -r "$HOME/.config/waybar"
-  rm -r "$HOME/.config/kite"
-  sudo rm -rf /etc/mosquitto.conf
+  for path in "$HOME_PATH/.config/sway" \
+              "$HOME_PATH/.config/kitty" \
+              "$HOME_PATH/.config/waybar" \
+              "$HOME_PATH/.config/ranger" \
+              "$HOME_PATH/.config/fastfetch" \
+              "$HOME_PATH/.config/fish" \
+              /etc/mosquitto.conf; do
+    if ! rm -r "$path"; then
+      echo "Error: Could not remove '$path'" >&2
+      exit 1
+    fi
+  done
 
-  info "Удаление конфигурационных файлов завершено успешно!"
+  info "Removing configuration files completed successfully!"
 }
 
 remove_apps() {
-  info "Удаление приложений..."
+  info "Removing applications..."
   
-  yay -R --noconfirm sway swaybg waybar kitty
+  if ! pacman -R --noconfirm pacman-contrib arc-solid-gtk-theme papirus-icon-theme \
+                     woff2-font-awesome otf-font-awesome \
+                     noto-fonts-emoji noto-fonts noto-fonts-cjk noto-fonts-extra terminus-font \
+                     lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty; then
+    echo "Error: Failed to remove applications" >&2
+    exit 1
+  fi
 
-  # Developer инструменты
-  yay -R --noconfirm fish starship neovim fastfetch btop ranger
+  # Developer tools
+  if ! pacman -R --noconfirm fish starship eza neovim fastfetch btop \
+                     ranger python-pillow; then
+    echo "Error: Failed to remove applications" >&2
+    exit 1
+  fi
+
+  # Return to user's default shell
+  if ! chsh -s /bin/bash; then
+    echo "Error: Failed to change default shell" >&2
+    exit 1
+  fi
   
-  info "Удаление приложений завершено успешно!"
+  info "Removing applications completed successfully!"
 }
 
 remove_full() {
-  info "Удаление системы..."
+  info "Removing the entire system..."
   remove_config
   remove_apps
 
-  # Удаление главной программы
-  yay -R --noconfirm kite-appimage
+  # Remove main program
+  if ! pacman -R --noconfirm kite-appimage; then
+    echo "Error: Failed to remove main program" >&2
+    exit 1
+  fi
 
-  # Восстановление os-release
-  info "Восстановление os-release..."
-  sudo cp /etc/os-release.backup /etc/os-release
+  # Restore os-release
+  info "Restoring os-release..."
+  if ! cp /etc/os-release.backup /etc/os-release; then
+    echo "Error: Failed to restore os-release" >&2
+    exit 1
+  fi
 
-  info "Удаление системы Kite завершена успешно!"
+  info "Removing the entire system completed successfully!"
 
-  # Перезагрузка системы
+  # Reboot system
   if [ "$NO_REBOOT" = false ]; then
-    info "Перезагрузка системы начнется через 5 секунд..."
+    info "System reboot will start in 5 seconds..."
     sleep 5
-    sudo reboot
+    reboot
   fi
 }
 
-# Шаг 3: Выполнение удаления
+# Step 3: Perform removal
 case $CATEGORY in
   config)
     remove_config
@@ -153,7 +181,7 @@ case $CATEGORY in
     remove_full
     ;;
   *)
-    echo "Ошибка: Неизвестная категория '$CATEGORY'" >&2
+    echo "Error: Unknown category '$CATEGORY'" >&2
     show_help
     exit 1
     ;;

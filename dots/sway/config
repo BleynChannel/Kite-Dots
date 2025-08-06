@@ -4,8 +4,6 @@
 #
 # Read `man 5 sway` for a complete reference.
 
-xwayland disable
-
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -37,7 +35,8 @@ titlebar_border_thickness 0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 output HDMI-A-1 transform 90
-output * bg ~/.config/kite/assets/Kate.png stretch
+output DP-1 transform 90
+output * bg ~/.config/sway/assets/Kate.png stretch
 
 ### Idle configuration
 #
@@ -73,10 +72,10 @@ input type:touchpad {
 }
 
 input "10176:2137:WingCool_Inc._TouchScreen" map_to_output HDMI-A-1
+input "10176:2137:WingCool_Inc._TouchScreen" map_to_output DP-1
 
 input "1:1:AT_Translated_Set_2_keyboard" {
     xkb_layout us,ru
-    xkb_variant ,nodeadkeys
     xkb_options grp:alt_shift_toggle
 }
 
@@ -90,8 +89,15 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 #
 # Basics:
 #
-    # Start a terminal
+    # Start a Kite tools
+    bindsym $mod+k exec $term -e kite-tools
+
+    # Developer keybinds
     bindsym $mod+t exec $term
+    bindsym $mod+b exec $term btop
+    bindsym $mod+e exec mqtt-explorer
+    bindsym $mod+m exec mavproxy
+    bindsym $mod+u exec "QT_QPA_PLATFORM=xcb Kite"
 
     # Kill focused window
     bindsym $mod+q kill
@@ -99,6 +105,12 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     # Start your launcher
     # bindsym $mod+d exec $menu
 
+	#! TEMPORARY
+	bindsym $mod+1 exec ~/.config/sway/switch_video.sh 0
+	bindsym $mod+2 exec ~/.config/sway/switch_video.sh 1
+	bindsym $mod+3 exec ~/.config/sway/switch_video.sh 2
+	bindsym $mod+4 exec ~/.config/sway/switch_video.sh 3
+	
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
@@ -139,8 +151,8 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 # Workspaces:
 #
     # # Switch to workspace
-    # bindsym $mod+1 workspace number 1
-    # bindsym $mod+2 workspace number 2
+    bindsym $mod+Mod1+1 workspace number 1
+    bindsym $mod+Mod1+2 workspace number 2
     # bindsym $mod+3 workspace number 3
     # bindsym $mod+4 workspace number 4
     # bindsym $mod+5 workspace number 5
@@ -177,7 +189,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     # bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
-    # bindsym $mod+f fullscreen
+    bindsym $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
     # bindsym $mod+Shift+space floating toggle
@@ -226,16 +238,26 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 #
 # Utilities:
 #
-    # Special keys to adjust volume via PulseAudio
-    bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
-    bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
-    bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
-    bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
-    # Special keys to adjust brightness via brightnessctl
-    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
-    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-    # Special key to take a screenshot with grim
-    # bindsym Print exec grim
+    # # Special keys to adjust volume via PulseAudio
+    # bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
+    # bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
+    # bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
+    # bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+    # # Special keys to adjust brightness via brightnessctl
+    # bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    # bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+    # # Special key to take a screenshot with grim
+    # # bindsym Print exec grim
+
+    bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+    bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+    bindsym XF86AudioPlay exec playerctl play-pause
+    bindsym XF86AudioNext exec playerctl next
+    bindsym XF86AudioPrev exec playerctl previous
 
 #
 # Status Bar:
@@ -259,7 +281,11 @@ bar {
     swaybar_command waybar
 }
 
+exec "nm-applet --indicator"
+
 exec "QT_QPA_PLATFORM=xcb Kite"
+
+for_window [app_id="nm-connection-editor"] floating enable
 
 for_window [title="gst-launch-1.0"] move container to workspace number 2
 
