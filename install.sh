@@ -21,6 +21,7 @@ install_aur_pkgs() {
 
         if [ ! -d "$pkg_dir" ]; then
             sudo -u $SUDO_USER git clone "https://aur.archlinux.org/$pkg_name.git" "$pkg_dir"
+            chown -R "$SUDO_USER":"$SUDO_USER" "$pkg_dir"
         fi
 
         cd "$pkg_dir"
@@ -135,10 +136,6 @@ if ! systemctl enable lightdm.service; then
 fi
 if ! systemctl enable mosquitto.service; then
     echo "Error: Failed to enable mosquitto service" >&2
-    exit 1
-fi
-if ! systemctl enable sway.service; then
-    echo "Error: Failed to enable sway service" >&2
     exit 1
 fi
 
