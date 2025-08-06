@@ -137,15 +137,13 @@ if ! systemctl enable mosquitto.service; then
     echo "Error: Failed to enable mosquitto service" >&2
     exit 1
 fi
-# if ! systemctl enable sway.service; then
-#     echo "Error: Failed to enable sway service" >&2
-#     exit 1
-# fi
+if ! systemctl enable sway.service; then
+    echo "Error: Failed to enable sway service" >&2
+    exit 1
+fi
 
 info "Setting up the system..."
 if ! chsh -s /bin/fish; then
     echo "Error: Failed to change shell" >&2
     exit 1
 fi
-
-# echo "Test"
