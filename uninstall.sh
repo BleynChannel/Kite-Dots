@@ -96,9 +96,9 @@ fi
 remove_config() {
   info "Removing configuration files..."
   
-  for path in "/etc/sway" \
+  for path in "$HOME_PATH/.config/sway" \
               "$HOME_PATH/.config/kitty" \
-              "/etc/xdg/waybar" \
+              "$HOME_PATH/.config/waybar" \
               "$HOME_PATH/.config/ranger" \
               "$HOME_PATH/.config/fastfetch" \
               "$HOME_PATH/.config/fish" \

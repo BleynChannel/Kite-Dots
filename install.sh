@@ -70,9 +70,9 @@ cd "$PKG_DIR"
 # Step 1: Copying configuration files
 info "Copying configuration files..."
 
-copy_config "$PKG_DIR/dots/sway" "/etc/sway"
+copy_config "$PKG_DIR/dots/sway" "$HOME_PATH/.config/sway"
 copy_config "$PKG_DIR/dots/kitty" "$HOME_PATH/.config/kitty"
-copy_config "$PKG_DIR/dots/waybar" "/etc/xdg/waybar"
+copy_config "$PKG_DIR/dots/waybar" "$HOME_PATH/.config/waybar"
 copy_config "$PKG_DIR/dots/ranger" "$HOME_PATH/.config/ranger"
 copy_config "$PKG_DIR/dots/fastfetch" "$HOME_PATH/.config/fastfetch"
 copy_config "$PKG_DIR/dots/fish" "$HOME_PATH/.config/fish"
