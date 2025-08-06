@@ -29,6 +29,8 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
+HOME_PATH=$(getent passwd "$SUDO_USER" | cut -d: -f6)
+
 # Process arguments
 CATEGORY=""
 NO_CONFIRM=false
