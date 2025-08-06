@@ -34,7 +34,8 @@ install_aur_pkgs() {
                 echo "Error: Failed to install $pkg_name" >&2
                 exit 1
             fi
-            if ! pacman -U --noconfirm "$pkg_file"; then
+
+            if ! pacman -U --noconfirm "$(find "$pkg_dir" -maxdepth 1 -type f -name "*.pkg.tar.*" | head -n 1)"; then
                 echo "Error: Failed to install $pkg_name" >&2
                 exit 1
             fi
