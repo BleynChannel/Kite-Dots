@@ -28,13 +28,21 @@ install_aur_pkgs() {
 
         if [ ! -f "$pkg_file" ]; then
             source PKGBUILD
+
+            if [ -n "${validpgpkeys[*]}" ]; then
+                for key in "${validpgpkeys[@]}"; do
+                    if ! gpg --recv-keys "$key"; then
+                        echo "Warning: Failed to import PGP key $key for $pkg_name" >&2
+                    fi
+                done
+            fi
             
             if ! pacman -Sy --needed --noconfirm "${depends[@]}" "${makedepends[@]}"; then
                 echo "Error: Failed to install dependencies for $pkg_name" >&2
                 exit 1
             fi
 
-            if ! sudo -u $SUDO_USER makepkg -f --noconfirm; then
+            if ! sudo -u $SUDO_USER makepkg -f --skippgpcheck --noconfirm; then
                 echo "Error: Failed to build $pkg_name" >&2
                 exit 1
             fi
