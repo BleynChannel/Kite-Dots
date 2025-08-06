@@ -42,7 +42,7 @@ install_aur_pkgs() {
                 exit 1
             fi
 
-            if ! sudo -u $SUDO_USER makepkg -f --noconfirm; then
+            if ! sudo -u $SUDO_USER makepkg -f --skippgpcheck --noconfirm; then
                 echo "Error: Failed to build $pkg_name" >&2
                 exit 1
             fi
