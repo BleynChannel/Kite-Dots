@@ -25,7 +25,12 @@ install_aur_pkgs() {
         cd "$pkg_dir"
 
         if [ ! -f "$pkg_file" ]; then
-            if ! sudo -u $SUDO_USER makepkg -sf --noconfirm; then
+            if ! pacman -Sy --needed --noconfirm $(source PKGBUILD && echo "${depends[@]}"); then
+                echo "Error: Failed to install dependencies for $pkg_name" >&2
+                exit 1
+            fi
+
+            if ! sudo -u $SUDO_USER makepkg -f --noconfirm; then
                 echo "Error: Failed to install $pkg_name" >&2
                 exit 1
             fi
@@ -64,10 +69,10 @@ if ! pacman -S --noconfirm pacman-contrib papirus-icon-theme \
     exit 1
 fi
 
-# if ! install_aur_pkgs "arc-gtk-theme"; then
-#     echo "Error: Failed to install AUR packages" >&2
-#     exit 1
-# fi
+if ! install_aur_pkgs "arc-gtk-theme"; then
+    echo "Error: Failed to install AUR packages" >&2
+    exit 1
+fi
 
 # Developer tools
 if ! pacman -S --noconfirm fish starship eza neovim fastfetch btop \
