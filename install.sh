@@ -93,6 +93,7 @@ copy_config "$PKG_DIR/dots/waybar" "$HOME_PATH/.config/waybar"
 copy_config "$PKG_DIR/dots/ranger" "$HOME_PATH/.config/ranger"
 copy_config "$PKG_DIR/dots/fastfetch" "$HOME_PATH/.config/fastfetch"
 copy_config "$PKG_DIR/dots/fish" "$HOME_PATH/.config/fish"
+copy_config "$PKG_DIR/dots/QGroundControl" "$HOME_PATH/.config/QGroundControl"
 if ! rsync -av "$PKG_DIR/dots/mosquitto/mosquitto.conf" "/etc/mosquitto.conf"; then
     echo "Error: Failed to copy configuration files" >&2
     exit 1
@@ -148,7 +149,7 @@ if ! systemctl enable mosquitto.service; then
 fi
 
 info "Setting up the system..."
-if ! chsh -s /bin/fish; then
+if ! chsh -s $(which fish); then
     echo "Error: Failed to change shell" >&2
     exit 1
 fi

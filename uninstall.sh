@@ -104,6 +104,7 @@ remove_config() {
               "$HOME_PATH/.config/ranger" \
               "$HOME_PATH/.config/fastfetch" \
               "$HOME_PATH/.config/fish" \
+              "$HOME_PATH/.config/QGroundControl" \
               /etc/mosquitto.conf; do
     if ! rm -r "$path"; then
       echo "Error: Could not remove '$path'" >&2
