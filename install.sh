@@ -26,14 +26,22 @@ install_aur_pkgs() {
         cd "$pkg_dir"
 
         if [ ! -f "$pkg_file" ]; then
-            if ! pacman -Sy --needed --noconfirm $(source PKGBUILD && echo "${depends[@]}"); then
+            source PKGBUILD
+            
+            if ! pacman -Sy --needed --noconfirm "${depends[@]}" "${makedepends[@]}"; then
                 echo "Error: Failed to install dependencies for $pkg_name" >&2
                 exit 1
             fi
 
             if ! sudo -u $SUDO_USER makepkg -f --noconfirm; then
-                echo "Error: Failed to install $pkg_name" >&2
+                echo "Error: Failed to build $pkg_name" >&2
                 exit 1
+            fi
+
+            if [ -n "${makedepends[*]}" ]; then
+                if ! pacman -Rs --noconfirm "${makedepends[@]}"; then
+                    echo "Warning: Failed to remove makedepends for $pkg_name" >&2
+                fi
             fi
 
             if ! pacman -U --noconfirm "$(find "$pkg_dir" -maxdepth 1 -type f -name "*.pkg.tar.*" | head -n 1)"; then
