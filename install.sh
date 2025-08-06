@@ -148,7 +148,7 @@ if ! systemctl enable mosquitto.service; then
 fi
 
 info "Setting up the system..."
-if ! chsh -s /bin/fish; then
+if ! chsh -s $(which fish); then
     echo "Error: Failed to change shell" >&2
     exit 1
 fi
