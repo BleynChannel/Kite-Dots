@@ -97,7 +97,7 @@ remove_config() {
   info "Removing configuration files..."
   
   for path in "/etc/sway" \
-              "/usr/share/doc/kitty" \
+              "$HOME_PATH/.config/kitty" \
               "/etc/xdg/waybar" \
               "$HOME_PATH/.config/ranger" \
               "$HOME_PATH/.config/fastfetch" \

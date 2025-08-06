@@ -71,7 +71,7 @@ cd "$PKG_DIR"
 info "Copying configuration files..."
 
 copy_config "$PKG_DIR/dots/sway" "/etc/sway"
-copy_config "$PKG_DIR/dots/kitty" "/usr/share/doc/kitty"
+copy_config "$PKG_DIR/dots/kitty" "$HOME_PATH/.config/kitty"
 copy_config "$PKG_DIR/dots/waybar" "/etc/xdg/waybar"
 copy_config "$PKG_DIR/dots/ranger" "$HOME_PATH/.config/ranger"
 copy_config "$PKG_DIR/dots/fastfetch" "$HOME_PATH/.config/fastfetch"
