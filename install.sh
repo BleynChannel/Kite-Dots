@@ -147,3 +147,5 @@ if ! chsh -s /bin/fish; then
     echo "Error: Failed to change shell" >&2
     exit 1
 fi
+
+echo "Test"
