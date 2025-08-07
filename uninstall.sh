@@ -118,7 +118,7 @@ remove_config() {
 remove_apps() {
   info "Removing applications..."
   
-  if ! pacman -R --noconfirm pacman-contrib arc-solid-gtk-theme papirus-icon-theme \
+  if ! pacman -R --noconfirm pacman-contrib network-manager-applet arc-solid-gtk-theme papirus-icon-theme \
                      woff2-font-awesome otf-font-awesome \
                      noto-fonts-emoji noto-fonts noto-fonts-cjk noto-fonts-extra terminus-font \
                      lightdm lightdm-gtk-greeter sway swaybg waybar mosquitto kitty; then
