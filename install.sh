@@ -149,7 +149,7 @@ if ! systemctl enable mosquitto.service; then
 fi
 
 info "Setting up the system..."
-if ! chsh -s $(which fish); then
+if ! usermod -s $(which fish) $SUDO_USER; then
     echo "Error: Failed to change shell" >&2
     exit 1
 fi
