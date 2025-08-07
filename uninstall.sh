@@ -134,7 +134,7 @@ remove_apps() {
   fi
 
   # Return to user's default shell
-  if ! chsh -s /bin/bash; then
+  if ! usermod -s $(which bash) $SUDO_USER; then
     echo "Error: Failed to change default shell" >&2
     exit 1
   fi
