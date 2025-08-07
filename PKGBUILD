@@ -1,6 +1,6 @@
 # Maintainer: Bleyn Channel <bleyn2017@gmail.com>
 pkgname=kite-appimage
-pkgver=0.0.0-dev3
+pkgver=0.0.0_dev3
 pkgrel=1
 pkgdesc="Ground control for unmanned vehicles."
 arch=('x86_64')
