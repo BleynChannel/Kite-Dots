@@ -148,6 +148,12 @@ if ! systemctl enable mosquitto.service; then
     exit 1
 fi
 
+# Configuring touchscreens
+if ! ./sway_configurator.sh; then
+    echo "Error: Failed to configure touchscreens" >&2
+    exit 1
+fi
+
 info "Setting up the system..."
 if ! usermod -s $(which fish) $SUDO_USER; then
     echo "Error: Failed to change shell" >&2
