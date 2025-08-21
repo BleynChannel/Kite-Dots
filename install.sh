@@ -149,7 +149,7 @@ if ! systemctl enable mosquitto.service; then
 fi
 
 # Configuring touchscreens
-if ! ./sway_configurator.sh; then
+if ! sudo -u $SUDO_USER ./sway_configurator.sh; then
     echo "Error: Failed to configure touchscreens" >&2
     exit 1
 fi
