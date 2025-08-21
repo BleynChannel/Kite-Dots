@@ -85,6 +85,3 @@ fi
 
 echo ""
 echo "Config saved to: $CONFIG_FILE"
-
-# Make error
-exit 1
