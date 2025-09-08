@@ -26,8 +26,10 @@ declare -A processed_devices
 
 # Find all touchscreens via /dev/input/by-path/
 touchscreen_count=0
+total_touchscreens=0
 
 if [ -d "/dev/input/by-path/" ]; then
+    # First pass: count total number of touchscreens
     for device in /dev/input/by-path/*-event; do
         if [ -e "$device" ]; then
             # Get the real device path to avoid duplicates
@@ -43,44 +45,53 @@ if [ -d "/dev/input/by-path/" ]; then
             device_info=$(udevadm info --query=all --name="$device" 2>/dev/null)
             if echo "$device_info" | grep -q "ID_INPUT_TOUCHSCREEN=1"; then
                 echo "Found touchscreen: $device"
-                
+
                 # Mark this device as processed
-                processed_devices["$real_path"]=1
-                
-                # Get basic info
-                device_name=$(echo "$device_info" | grep "NAME=" | head -1 | cut -d'=' -f2 | tr -d '"' | sed 's/ /_/g' || echo "Touchscreen")
-                
-                # Use the most stable identifier available
-                if [ -e "/dev/input/by-id/" ]; then
-                    id_link=$(find /dev/input/by-id/ -lname "*$(basename $real_path)" | head -1)
-                    if [ -n "$id_link" ]; then
-                        identifier="$device_name:$(basename $id_link)"
-                    else
-                        identifier="$device_name:$(basename $device)"
-                    fi
-                else
-                    identifier="$device_name:$(basename $device)"
-                fi
-                
-                # Determine output
-                output_name="HDMI-A-$((touchscreen_count + 1))"
-                
-                echo "input \"$identifier\" {" >> "$CONFIG_FILE"
-                echo "    map_to_output \"$output_name\"" >> "$CONFIG_FILE"
-                echo "}" >> "$CONFIG_FILE"
-                echo "" >> "$CONFIG_FILE"
-                
-                touchscreen_count=$((touchscreen_count + 1))
+                processed_devices["$real_path"]=$device
+                total_touchscreens=$((total_touchscreens + 1))
             fi
         fi
     done
+
+    # Second pass: configure touchscreens with reverse numbering
+    for device in "${!processed_devices[@]}"; do
+        echo $device
+
+        real_path=$(readlink -f "$device")
+
+        # Get basic info
+        device_info=$(udevadm info --query=all --name="$device" 2>/dev/null)
+        device_name=$(echo "$device_info" | grep "NAME=" | head -1 | cut -d'=' -f2 | tr -d '"' | sed 's/ /_/g' || echo "Touchscreen")
+        
+        # Use the most stable identifier available
+        if [ -e "/dev/input/by-id/" ]; then
+            id_link=$(find /dev/input/by-id/ -lname "*$(basename $real_path)" | head -1)
+            if [ -n "$id_link" ]; then
+                identifier="$device_name:$(basename $id_link)"
+            else
+                identifier="$device_name:$(basename $device)"
+            fi
+        else
+            identifier="$device_name:$(basename $device)"
+        fi
+        
+        # Determine output with reverse numbering (N to 1)
+        output_name="HDMI-A-$((total_touchscreens - touchscreen_count))"
+        
+        echo "input \"$identifier\" {" >> "$CONFIG_FILE"
+        echo "    map_to_output \"$output_name\"" >> "$CONFIG_FILE"
+        echo "}" >> "$CONFIG_FILE"
+        echo "" >> "$CONFIG_FILE"
+        
+        touchscreen_count=$((touchscreen_count + 1))
+    done
 fi
 
-if [ $touchscreen_count -eq 0 ]; then
+if [ $total_touchscreens -eq 0 ]; then
     echo "# No touchscreens found" >> "$CONFIG_FILE"
     echo "No touchscreens found"
 else
-    echo "Found and configured touchscreens: $touchscreen_count"
+    echo "Found and configured touchscreens: $total_touchscreens"
 fi
 
 echo ""
